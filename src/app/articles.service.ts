@@ -1,23 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { ArticleApiResponse, ArticleApiResponseObject, ArticleApiResponseMeta } from './article';
+import { ArticleApiResponse, ArticleApiResponseObject, ArticleApiResponseMeta, Article } from './article';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+const paramsMapping: { [key: string]: string } = {
+  webUrl: 'web_url'
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticlesService {
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) { }
+
+  public prepareQuery(query: { [key: string]: string }) {
+    return Object.keys(query)
+      .map((key) => `${[paramsMapping[key] || key]}:"${query[key]}"`)
+      .join(' AND ');
   }
 
-  public getArticles(): Observable<ArticleApiResponseObject> {
+  public getArticles(params: { [key: string]: string } = {}): Observable<ArticleApiResponseObject> {
     const url: string = this.getUrl(environment.apiSearchPath);
-    return this.http.get(url).pipe(map((res: ArticleApiResponse): ArticleApiResponseObject => res.response));
+    return this.http.get(url, { params })
+      .pipe(map((res: ArticleApiResponse): ArticleApiResponseObject => res.response));
+  }
+
+  public getArticleByWebUrl(webUrl: string): Observable<Article> {
+    return this.getArticles({
+      fq: this.prepareQuery({ webUrl })
+    }).pipe(map((response: ArticleApiResponseObject) => response.docs[0]));
   }
 
   public getUrl(path: string): string {
-    return `${environment.apiBaseURL}${path}`
+    return `${environment.apiBaseUrl}${path}`;
   }
 }

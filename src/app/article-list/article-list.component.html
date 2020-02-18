@@ -2,16 +2,16 @@
     <div *ngFor="let article of articles" class="card mb-3">
         <div class="row no-gutters">
             <div *ngIf="article.multimedia.length" class="col-md-4">
-                <img [src]="getImageURL(article)" class="card-img mr-3"
+                <img [src]="getImageUrl(article)" class="card-img mr-3"
                     [alt]="article.abstract">
             </div>
             <div [ngClass]="{'col-md-8': article.multimedia.length, 'col-md-12': !article.multimedia.length}">
                 <div class="card-body">
-                    <a href="javascript: void(0)" (click)="gotoArticle(article)">
+                    <a href="javascript: void(0)" [routerLink]="['articles', getArticleUrl(article)]">
                         <h5 class="card-title">{{article.headline.main}}</h5>
                     </a>
                     <p class="card-text text-justify">{{article.lead_paragraph}}</p>
-                    <a href="javascript: void(0)" (click)="gotoArticle(article)">Read More</a>
+                    <a href="javascript: void(0)" [routerLink]="['articles', getArticleUrl(article)]">Read More</a>
                 </div>
             </div>
         </div>

@@ -1,1 +1,41 @@
-<p>article-detail works!</p>
+<div *ngIf="isLoading; else elseBlock" class="spinner-border text-center" role="status">
+    <span class="sr-only">Loading...</span>
+</div>
+<ng-template #elseBlock>
+    <div class="container">
+        <h3>
+            {{article.headline.main}}
+        </h3>
+        <sup>
+            Visit website: <a [href]="article.web_url" target="_blank">{{article.web_url}}</a>
+        </sup>
+        <p>
+            <b>
+                Date published:
+            </b>
+            {{article.pub_date|date: "MMM dd, yyyy, h:mm a"}}</p>
+        <p *ngIf="!!article.section_name">
+            <b>Section:</b>
+            {{article.section_name}}
+        </p>
+        <p *ngIf="!!article.subsection_name">
+            <b>Sub Section:</b>
+            {{article.subsection_name}}
+        </p>
+        <p *ngIf="!!article.document_type">
+            <b>Document type:</b>
+            {{article.document_type}}
+        </p>
+        <p *ngIf="!!article.source">
+            <b>Source:</b>
+            {{article.source}}
+        </p>
+        <p *ngIf="!!article.abstract">
+            {{article.abstract}}
+        </p>
+        <p *ngIf="!!article.lead_paragraph">
+            {{article.lead_paragraph}}
+        </p>
+         
+    </div>
+</ng-template>

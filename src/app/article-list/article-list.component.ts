@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ArticlesService } from '../articles.service';
 import { ArticleApiResponseObject, Article } from '../article';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-article-list',
@@ -13,7 +14,7 @@ export class ArticleListComponent implements OnInit {
   private imagesBaseUrl: string = environment.imagesBaseUrl;
   public isLoading: boolean;
 
-  constructor(private articlesService: ArticlesService) { }
+  constructor(private articlesService: ArticlesService, private router: Router) { }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -24,15 +25,11 @@ export class ArticleListComponent implements OnInit {
       });
   }
 
-  public getArticleId(article: Article): string {
-    return article._id.split('/').pop();
+  public getArticleUrl(article: Article): string {
+    return encodeURIComponent(article.web_url);
   }
 
-  public getImageURL(article: Article): string {
+  public getImageUrl(article: Article): string {
     return this.imagesBaseUrl + '/' + article.multimedia[0].url;
-  }
-
-  public gotoArticle(article: Article): void {
-    console.log('gotoArticle')
   }
 }
