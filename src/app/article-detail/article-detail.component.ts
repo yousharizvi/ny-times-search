@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticlesService } from '../articles.service';
 import { ActivatedRoute } from '@angular/router';
-import { Article } from '../article';
+import { Article, Multimedia } from '../article';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-article-detail',
@@ -9,6 +10,7 @@ import { Article } from '../article';
   styleUrls: ['./article-detail.component.scss']
 })
 export class ArticleDetailComponent implements OnInit {
+  private imagesBaseUrl: string = environment.imagesBaseUrl;
   public isLoading: boolean;
   public article: Article;
   constructor(private articlesService: ArticlesService, private router: ActivatedRoute) { }
@@ -25,4 +27,7 @@ export class ArticleDetailComponent implements OnInit {
     });
   }
 
+  public getImageUrl(article: Article): string {
+    return this.imagesBaseUrl + '/' + article.multimedia[0].url;
+  }
 }
