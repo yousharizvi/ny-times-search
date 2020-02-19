@@ -15,6 +15,11 @@ const paramsMapping: { [key: string]: string } = {
 export class ArticlesService {
   constructor(private http: HttpClient) { }
 
+  public prepareQueryParams(query: { [key: string]: string | number }) {
+    return Object.keys(query)
+      .reduce((acc, key) => ({ ...acc, [paramsMapping[key] || key]: query[key] }), {});
+  }
+
   public prepareQuery(query: { [key: string]: string }) {
     return Object.keys(query)
       .map((key) => `${[paramsMapping[key] || key]}:"${query[key]}"`)

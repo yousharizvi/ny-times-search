@@ -13,23 +13,44 @@ export class ArticleListComponent implements OnInit {
   public articles: Article[];
   private imagesBaseUrl: string = environment.imagesBaseUrl;
   public isLoading: boolean;
+  public page = 0;
+  public pageLimit = 99;
+  public sort = 'newest';
+  public sortOptions = [{ value: 'newest', label: 'Newest' }, { value: 'oldest', label: 'Oldest' }];
 
   constructor(private articlesService: ArticlesService, private router: Router) { }
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.articlesService.getArticles()
+    this.getArticles();
+  }
+
+  private getArticles(): void {
+    const queryParams: any = this.getQueryParams();
+    this.articlesService.getArticles(queryParams)
       .subscribe((resp: ArticleApiResponseObject) => {
         this.articles = resp.docs;
         this.isLoading = false;
       });
   }
 
+  private getQueryParams(): any {
+    return this.articlesService.prepareQueryParams({
+      page: this.page,
+      sort: this.sort
+    });
+  }
   public getArticleUrl(article: Article): string {
     return encodeURIComponent(article.web_url);
   }
 
   public getImageUrl(article: Article): string {
     return this.imagesBaseUrl + '/' + article.multimedia[0].url;
+  }
+
+  public changePage(page): void {
+    this.page = page;
+    this.isLoading = true;
+    this.getArticles();
   }
 }
