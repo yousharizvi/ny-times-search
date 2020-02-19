@@ -13,10 +13,11 @@ export class ArticleListComponent implements OnInit {
   public articles: Article[];
   private imagesBaseUrl: string = environment.imagesBaseUrl;
   public isLoading: boolean;
+  public searchKeyword: string;
   public page = 0;
   public pageLimit = 99;
   public sort = 'newest';
-  public sortOptions = [{ value: 'newest', label: 'Newest' }, { value: 'oldest', label: 'Oldest' }];
+  public sortOptions = [{ value: 'newest', label: 'Newest first' }, { value: 'oldest', label: 'Oldest first' }];
 
   constructor(private articlesService: ArticlesService, private router: Router) { }
 
@@ -37,7 +38,8 @@ export class ArticleListComponent implements OnInit {
   private getQueryParams(): any {
     return this.articlesService.prepareQueryParams({
       page: this.page,
-      sort: this.sort
+      sort: this.sort,
+      searchKeyword: this.searchKeyword
     });
   }
   public getArticleUrl(article: Article): string {
@@ -50,6 +52,19 @@ export class ArticleListComponent implements OnInit {
 
   public changePage(page): void {
     this.page = page;
+    this.isLoading = true;
+    this.getArticles();
+  }
+
+  public search(event): void {
+    if (event.key === 'Enter') {
+      this.isLoading = true;
+      this.articles = [];
+      this.getArticles();
+    }
+  }
+
+  public changeSorting(): void {
     this.isLoading = true;
     this.getArticles();
   }

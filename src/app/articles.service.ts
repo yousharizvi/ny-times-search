@@ -6,7 +6,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 const paramsMapping: { [key: string]: string } = {
-  webUrl: 'web_url'
+  webUrl: 'web_url',
+  query: 'fq',
+  searchKeyword: 'q'
 };
 
 @Injectable({
@@ -33,9 +35,9 @@ export class ArticlesService {
   }
 
   public getArticleByWebUrl(webUrl: string): Observable<Article> {
-    return this.getArticles({
-      fq: this.prepareQuery({ webUrl })
-    }).pipe(map((response: ArticleApiResponseObject) => response.docs[0]));
+    return this.getArticles(this.prepareQueryParams({
+      query: this.prepareQuery({ webUrl })
+    })).pipe(map((response: ArticleApiResponseObject) => response.docs[0]));
   }
 
   public getUrl(path: string): string {
