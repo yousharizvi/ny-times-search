@@ -1,4 +1,10 @@
 <div class="container pt-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item active truncate-text" aria-current="page">Articles</li>
+        </ol>
+    </nav>
     <div class="row">
         <nav aria-label="Page navigation" class="col-md-4">
             <ul class="pagination">
@@ -10,13 +16,13 @@
                         <span class="sr-only">(current)</span>
                     </span>
                 </li>
-                <li class="page-item" [ngClass]="{disabled: page >= pageLimit || !articles || !articles.length}"><a class="page-link"
-                        href="javascript: void(0)" (click)="changePage(page+1)">Next</a></li>
+                <li class="page-item" [ngClass]="{disabled: page >= pageLimit || !articles || !articles.length}"><a
+                        class="page-link" href="javascript: void(0)" (click)="changePage(page+1)">Next</a></li>
             </ul>
         </nav>
         <div class="col-md-4">
-            <input class="form-control form-control-md" type="text" placeholder="Enter text and press enter to search" [(ngModel)]="searchKeyword"
-                (keydown)="search($event)">
+            <input class="form-control form-control-md" type="text" placeholder="Enter text and press enter to search"
+                [(ngModel)]="searchKeyword" (keydown)="search($event)">
         </div>
         <div class="col-md-4">
             <select class="form-control form-control-md" [(ngModel)]="sort" (change)="changeSorting()">
