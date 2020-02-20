@@ -13,17 +13,34 @@ export class ArticleListComponent implements OnInit {
   public articles: Article[];
   private imagesBaseUrl: string = environment.imagesBaseUrl;
   public isLoading: boolean;
-  public searchKeyword: string;
-  public page = 0;
-  public pageLimit = 99;
-  public sort = 'newest';
   public sortOptions = [{ value: 'newest', label: 'Newest first' }, { value: 'oldest', label: 'Oldest first' }];
-
+  public pageLimit: number = environment.paginationLimit;
   constructor(private articlesService: ArticlesService, private router: Router) { }
 
   ngOnInit(): void {
     this.isLoading = true;
     this.getArticles();
+  }
+
+  public get searchKeyword(): string {
+    return this.articlesService.searchKeyword;
+  }
+  public set searchKeyword(value: string) {
+    this.articlesService.searchKeyword = value;
+  }
+
+  public get page(): number {
+    return this.articlesService.page;
+  }
+  public set page(value: number) {
+    this.articlesService.page = value;
+  }
+
+  public get sort(): string {
+    return this.articlesService.sort;
+  }
+  public set sort(value: string) {
+    this.articlesService.sort = value;
   }
 
   private getArticles(): void {
@@ -58,6 +75,7 @@ export class ArticleListComponent implements OnInit {
 
   public search(event): void {
     if (event.key === 'Enter') {
+      this.page = 0;
       this.isLoading = true;
       this.articles = [];
       this.getArticles();
@@ -66,6 +84,7 @@ export class ArticleListComponent implements OnInit {
 
   public changeSorting(): void {
     this.isLoading = true;
+    this.page = 0;
     this.getArticles();
   }
 }

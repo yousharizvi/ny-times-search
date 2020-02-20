@@ -15,6 +15,11 @@ const paramsMapping: { [key: string]: string } = {
   providedIn: 'root'
 })
 export class ArticlesService {
+  public searchKeyword: string;
+  public page = 0;
+  public pageLimit = 99;
+  public sort = 'newest';
+
   constructor(private http: HttpClient) { }
 
   public prepareQueryParams(query: { [key: string]: string | number }) {
