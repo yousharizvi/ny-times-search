@@ -15,6 +15,7 @@ const paramsMapping: { [key: string]: string } = {
   providedIn: 'root'
 })
 export class ArticlesService {
+  // These api variable are placed here to maintain state of listing for navagation back and forth
   public searchKeyword: string;
   public page = 0;
   public pageLimit = 99;

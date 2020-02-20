@@ -27,6 +27,10 @@ export class ArticleDetailComponent implements OnInit {
     });
   }
 
+  /**
+   * Extract image url from article
+   * @param article Article - Article to extract image url
+   */
   public getImageUrl(article: Article): string {
     return this.imagesBaseUrl + '/' + article.multimedia[0].url;
   }

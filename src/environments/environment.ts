@@ -7,7 +7,6 @@ export const environment = {
   apiBaseUrl: 'https://api.nytimes.com',
   apiKey: 'fkgAHTxtB9jKLDBKVyWIkVtHfGGDCbEi',
   apiSearchPath: '/svc/search/v2/articlesearch.json',
-  searchPattern: '?q={search}&api-key={apiKey}',
   imagesBaseUrl: 'https://www.nytimes.com',
   paginationLimit: 100
 };
